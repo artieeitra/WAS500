@@ -1,0 +1,103 @@
+<html>
+    <head><title>Survey</title>
+      <style>
+        .split {
+            height: 100%;
+            width: 90%;
+            position: fixed;
+            top: 0;
+            padding-top: 15px;
+          }
+          .left {
+            left: 0;
+            background-color: black;
+          }
+          .right {
+            right: 0;
+            background-color: rgb(54, 52, 52);
+            padding-right: 10px;
+          }
+          div.name {
+            padding-left:550px;
+            line-height:3em;
+            font-size:x-large;
+            color:white;
+          }
+          div.radio {
+            text-align:center;
+            line-height:3em;
+            font-size:large;
+            color:white;
+          }
+          input {
+            width:200px;
+            height:50px;
+          }
+          input.radio {
+            width:100px;
+            height:30px;
+          }
+          h1 {
+            text-align: center;
+            color: white;
+          }
+          a:link {
+            color:white
+          }
+          a:visited {
+            color: white
+          }
+          a:hover {
+            color:darkgrey
+          }
+          a:active {
+            color: rgb(126, 4, 4)
+          }
+          </style>
+    </head>
+    <body>
+        <div class="split left">
+        <nav>  
+            <ul>  
+            <li>  
+            <a href="index.html"> Home page </a>  
+            </li>  
+            <li>  
+            <a href="Lab1-booklist.html"> Books </a>  
+            </li>  
+            <li>  
+            <a href="Lab1-contact.html"> Contact us </a>  
+            </li>  
+            <li>  
+            <a href="Lab1-survey.html"> Survey </a>  
+            </li>  
+            </ul>  
+            </nav>
+        </div>
+        <div class="split right">
+        <h1>Survey</h1>
+        <form>
+        <div class="name">
+        <label class="message" for="fname">Name&nbsp;</label>
+        <input type="text" id="fname" name="fname" required></br>
+        <label class="message" for="date">Date&nbsp;&nbsp;&nbsp;</label>
+        <input type="date" id="date" name="date" required></br>
+        </div>
+        <div class="radio">
+        <p>How likely is that you recommend our library to your friends?&nbsp;
+        <input type="radio" class="radio" id="very" name="question" value="very" required>
+        <label class="message" for="very"> Very likely</label>
+        <input type="radio" class="radio" id="somewhat" name="question" value="somewhat">
+        <label for="somewhat">Somewhat likely</label> 
+        <input type="radio" class="radio" id="not" name="question" value="not">
+        <label for="not">Not likely</label>
+        </p>
+        </div>
+        <div class="Name">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <input type="submit" value="Submit">
+        </div>
+        </form>
+        </div>
+        </div>
+    </body>
+</html>
