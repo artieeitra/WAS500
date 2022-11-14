@@ -7,8 +7,7 @@ const sendErrorResponse = (res) => {
   res.writeHead(httpStatus.StatusCodes.NOT_FOUND, {
     "Content-Type": "text/html",
   });
-  res.write("<h1>File Not Found!</h1>");
-  res.end();
+  customReadFile(`./views/error.html`, res);
 };
 
 const customReadFile = (file_path, res) => {
@@ -45,4 +44,4 @@ app.on("request", (req, res) => {
   }
 });
 app.listen(port);
-console.log(`The server has started and is listening on port number:${port}`);
+console.log(`The web server can be accessed on port:${port}`);
