@@ -1,63 +1,48 @@
 const port = 3000;
 const http = require("http");
-const httpStatusCodes = require("http-status-codes");
-const router = require("./router");
+const httpStatus = require("http-status-codes");
 const fs = require("fs");
 
-const plainTextContentType = {
-  "Content-Type": "text/plain",
-};
-const htmlContentType = {
-  "Content-Type": "text/html",
-};
-const customReadFile = (file, res) => {
-  fs.readFile(`./${file}`, (errors, data) => {
-    if (errors) {
-      console.log("Error reading the file...");
-    }
-    res.end(data);
+const sendErrorResponse = (res) => {
+  res.writeHead(httpStatus.StatusCodes.NOT_FOUND, {
+    "Content-Type": "text/html",
   });
+  res.write("<h1>File Not Found!</h1>");
+  res.end();
 };
 
-router.get("/", (req, res) => {
-    res.writeHead(httpStatusCodes.StatusCodes.OK, htmlContentType);
-    customReadFile("views/index.html", res);
+const customReadFile = (file_path, res) => {
+  if (fs.existsSync(file_path)) {
+    fs.readFile(file_path, (error, data) => {
+      if (error) {
+        console.log(error);
+        sendErrorResponse(res);
+        return;
+      }
+      res.write(data);
+      res.end();
+    });
+  } else {
+    sendErrorResponse(res);
+  }
+};
+
+const app = http.createServer();
+app.on("request", (req, res) => {
+  let url = req.url;
+  if (url.indexOf(".html") !== -1) {
+    res.writeHead(httpStatus.StatusCodes.OK, {
+      "Content-Type": "text/html",
+    });
+    customReadFile(`./views${url}`, res);
+  } else if (url.indexOf(".png") !== -1) {
+    res.writeHead(httpStatus.StatusCodes.OK, {
+      "Content-Type": "image/png",
+    });
+    customReadFile(`./public/${url}`, res);
+  } else {
+    sendErrorResponse(res);
+  }
 });
-router.get("/index.html", (req, res) => {
-  res.writeHead(httpStatusCodes.StatusCodes.OK, htmlContentType);
-  customReadFile("views/index.html", res);
-});
-router.get("/Lab1-booklist.html", (req, res) => {
-    res.writeHead(httpStatusCodes.StatusCodes.OK, htmlContentType);
-    customReadFile("views/Lab1-booklist.html", res);
-});
-router.get("/Lab1-We.html", (req, res) => {
-  res.writeHead(httpStatusCodes.StatusCodes.OK, htmlContentType);
-  customReadFile("views/Lab1-We.html", res);
-});
-router.get("/Lab1-animalfarm.html", (req, res) => {
-    res.writeHead(httpStatusCodes.StatusCodes.OK, htmlContentType);
-    customReadFile("views/Lab1-animalfarm.html", res);
-  });
-  router.get("/Lab1-1984.html", (req, res) => {
-    res.writeHead(httpStatusCodes.StatusCodes.OK, htmlContentType);
-    customReadFile("views/Lab1-1984.html", res);
-  });
-  router.get("/Lab1-contact.html", (req, res) => {
-    res.writeHead(httpStatusCodes.StatusCodes.OK, htmlContentType);
-    customReadFile("views/Lab1-contact.html", res);
-  });
-  router.get("/Lab1-survey.html", (req, res) => {
-    res.writeHead(httpStatusCodes.StatusCodes.OK, htmlContentType);
-    customReadFile("views/Lab1-survey.html", res);
-  });
-  router.get("/Lab1-honesty.html", (req, res) => {
-    res.writeHead(httpStatusCodes.StatusCodes.OK, htmlContentType);
-    customReadFile("views/Lab1-honesty.html", res);
-  });
-router.post("/", (req, res) => {
-  res.writeHead(httpStatusCodes.StatusCodes.OK, plainTextContentType);
-  res.end("POSTED");
-});
-http.createServer(router.handle).listen(3000);
-console.log(`The server is listening on port number: ${port}`);
+app.listen(port);
+console.log(`The server has started and is listening on port number:${port}`);
